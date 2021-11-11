@@ -1,0 +1,33 @@
+#language{
+    margin-bottom: 16px;
+    margin-top: 16px;
+}
+
+
+#editor{
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    border: solid 1px gray;
+    font-size: 18px;
+}
+
+#loader{
+    display: none;
+    margin: 16px;
+}
+
+.info {
+    padding: 8px;
+}
+
+.title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+#status{
+    display: none;
+}
