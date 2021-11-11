@@ -3,6 +3,9 @@
     margin-top: 16px;
 }
 
+.container{
+    padding: 16px;
+}
 
 #editor{
     height: 400px;
