@@ -1,4 +1,4 @@
-<nav style="position:fixed;width:100%;z-index:100;" class="navbar navbar-expand-lg navbar-light bg-light">
+<nav style="position:fixed;width:100%;z-index:100;top:0;" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img src="https://th.bing.com/th/id/R.9c5c3d2ed1ebd22dbcf567bc5d2d4fc8?rik=vC8lSSfdD1U5zg&riu=http%3a%2f%2fwww.newdesignfile.com%2fpostpic%2f2014%2f09%2fcomputer-programming-code-icon_334973.png&ehk=opjpxA8O%2bpC5h%2bX8BO4YhrH6OlFCGHNEpuf8I9v9tqg%3d&risl=&pid=ImgRaw&r=0" alt="" width="48" height="48" class="d-inline-block align-text-center">
