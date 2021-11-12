@@ -9,7 +9,7 @@
 
 <div id="id02" class="modal">
   
-  <form class="modal-content animate" action="/action_page.php" method="post">
+  <div class="modal-content animate" >
     <div class="imgcontainer">
       <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
       <img src="https://th.bing.com/th/id/OIP.NHIFqwS7wDOH83DMRrZf1wHaHZ?pid=ImgDet&rs=1" alt="Avatar" class="avatar">
@@ -17,12 +17,12 @@
 
     <div class="container">
       <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="uname" required>
+      <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
 
       <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="psw" required>
+      <input type="password" placeholder="Enter Password" name="psw" id="pwd" required>
         
-      <button class="btt" type="submit">Login</button>
+      <button class="btt" onclick='loginsubmit();' >Login</button>
       <label>
         <input type="checkbox" checked="checked" name="remember"> Remember me
       </label>
@@ -32,10 +32,20 @@
       <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
       <span class="psw"> <a href="#">Forgot password?</a></span>
     </div>
-  </form>
+</div>
 </div>
 
 <script>
+
+  function loginsubmit(e) {
+    
+    $.post("/Competitive-programming-platform/Authentication/login.php", {
+                        username: $("#uname").val(),
+                        password : $("#pwd").val()
+                    }).then(e => {
+                        console.log(e);
+                    })
+  }
 // Get the modal
 var modal2 = document.getElementById('id02');
 var modal1 = document.getElementById('id01');
