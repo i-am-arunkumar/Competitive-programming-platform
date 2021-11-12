@@ -3,7 +3,7 @@
 
 $questionId = $_GET["id"];
 
-$database = mysqli_connect("localhost", "qmaxrun", "linux 1051", "CP_SITE");
+$database = mysqli_connect("localhost", "root", "", "cp_site");
 
 if (!$database) {
     die("Connection failed: " . mysqli_connect_error());
@@ -187,8 +187,9 @@ $question = $question_data["question"];
 
                 if (status.id === 3) {
                     $.post("/Competitive-programming-platform/Question/submit.php", {
-                        uid: "123",
-                        qid: "<?php echo $questionId ?>"
+                        uid: sessionStorage.getItem("uid"),
+                        qid: "<?php echo $questionId ?>",
+                        cid : "<?php echo $contestId ?>"
                     }).then(e => {
                         console.log(e);
                         toast.show()

@@ -1,4 +1,5 @@
 <!--Head-->
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +12,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 </head>
+
+<?php
+include("Signin/Register.php");
+include("Signin/Login.php");
+?>
 
 <!--Navbar-->
 <nav style="position:fixed;width:100%;z-index:100;top:0;" class="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,20 +39,30 @@
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <button type="button" class="btn btn-primary" style="margin-left : 16px;" data-bs-toggle="modal" data-bs-target="#signindialog">SIGN IN</button>
+           <!-- <button type="button" class="btn btn-primary" style="margin-left : 16px;" data-bs-toggle="modal" data-bs-target="#signindialog">SIGN IN</button> -->
+           <button type="button" class="btn btn-primary" style="margin-left : 16px;" data-bs-toggle="modal" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Register</button>
+           <button type="button" class="btn btn-primary" style="margin-left : 6px;" data-bs-toggle="modal" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Login</button>           
         </div>
     </div>
 </nav>
 
 <!-- Sign in dialog -->
-<div class="modal fade" id="signindialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="signindialog" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Sign in</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+          
             <div class="modal-body">
+            <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="Log-in-tab" data-bs-toggle="tab" data-bs-target="#Log-in" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+    <button class="nav-link" id="Sign-in-tab" data-bs-toggle="tab" data-bs-target="#Sign-in" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+      </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="Log-in" role="tabpanel" aria-labelledby="Log-in-tab">...</div>
+  <div class="tab-pane fade" id="Sign-in" role="tabpanel" aria-labelledby="Sign-in-tab">...</div>
+</div>
+
                 <form>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -59,6 +75,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" type="submit">sign in</button>
             </div>
         </div>
