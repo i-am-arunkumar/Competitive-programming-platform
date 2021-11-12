@@ -13,12 +13,13 @@ include("../commons/db_connection.php");
 <?php
 $contest_id = htmlspecialchars($_GET["id"]);
 
-$sql = "SELECT * FROM CONTEST_DETAILS";
+$sql = "SELECT * FROM CONTEST_DETAILS WHERE CONTEST_ID = $contest_id";
 $result = $conn->query($sql);
 
 $contest_details = $result->fetch_assoc();
 ?>
 
+<!--Hero Section-->
 <div class="px-4 py-5 my-5 text-center">
     <h1 class="display-5 fw-bold">
         <?php echo $contest_details["contest_name"] ?>
@@ -38,35 +39,36 @@ $contest_details = $result->fetch_assoc();
     </div>
 </div>
 
+<?php
+$sql = "SELECT * FROM CONTEST_QUESTIONS WHERE CONTEST_ID = $contest_id";
+$result = $conn->query($sql);
+?>
 
-<!--<div class="table">-->
-<!--    <table class="table table-striped table-hover">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th scope="col">#</th>-->
-<!--            <th scope="col">Question Name</th>-->
-<!--            <th scope="col">Solved?</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr>-->
-<!--            <th scope="row">1</th>-->
-<!--            <td>Linear keyboard</td>-->
-<!--            <td>Yes</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <th scope="row">2</th>-->
-<!--            <td>Odd Grasshopper</td>-->
-<!--            <td>No</td>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--            <th scope="row">3</th>-->
-<!--            <td>Minimum Extraction</td>-->
-<!--            <td>No</td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
-<!--</div>-->
+<!--Questions Table-->
+<div class="table">
+    <table class="table table-striped table-hover text-center">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Question Name</th>
+            <th scope="col">Solved?</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php
+        while ($row = $result->fetch_assoc()) {
+            echo '
+            <tr>
+                <th scope="row">' . $row["question_id"] . '</th>
+                <td>' . $row["question_name"] . '</td>
+                <td>-</td>
+            </tr>
+            ';
+        }
+        ?>
+        </tbody>
+    </table>
+</div>
 
 </body>
 
