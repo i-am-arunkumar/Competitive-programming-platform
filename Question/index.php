@@ -1,13 +1,27 @@
 <?php
 
-$baseUrl = "\"https://api.judge0.com\"";
-$authenHeader = "\"X-Auth-Token\"";
-$authorHeader = "\"X-Auth-User\"";
-$authenToken = "\"\"";
-$authorToken = "\"\"";
-$stdin = "\"hi\"";
-$expectedOutput = "\"1\"";
 
+$questionId = $_GET["id"];
+
+$database = mysqli_connect("localhost", "qmaxrun", "linux 1051", "CP_SITE");
+
+if (!$database) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+$question_query = "SELECT * FROM `questions` WHERE id=" . $questionId;
+
+$question_data = mysqli_fetch_array(mysqli_query($database, $question_query));
+
+$stdin = $question_data["test_input"];
+$expectedOutput = $question_data["expected_output"];
+$timeLimit = $question_data["time_limit"];
+$memoryLimit = $question_data["memory_limit"];
+$contestId = $question_data["contest_id"];
+
+$title = $question_data["title"];
+
+$question = $question_data["question"];
 
 ?>
 
@@ -34,23 +48,19 @@ $expectedOutput = "\"1\"";
 
         <div class="title">
             <h1><?php
-                echo "October 18,2017.";
+                echo $title;
                 ?>
             </h1>
             <div class="alert alert-light" role="alert">
                 <div class="info">
-                    Time limit : <?php echo "100ms" ?>
+                    Time limit : <?php echo $timeLimit ?> ms
                 </div>
-                <div class="info">Memory limit : <?php echo "1mb" ?> </div>
+                <div class="info">Memory limit : <?php echo $memoryLimit / 1024 ?> kb </div>
             </div>
         </div>
         <div class="card">
             <div class="card-body" id="ques_desc">
-                <?php echo "It was October 18,2017.Shohag,a melancholic soul,made a strong determination that he will pursue Competitive Programming seriously,by heart,because he found it fascinating.Fast forward to 4 years,he is happy that he took this road.He is now creating a contest on Codeforces.He found an astounding problem but has no idea how to solve this.Help him to solve the final problem of the round.You are given three integers n,k and x.Find the number,modulo 998244353,of integer sequences a1,a2,…,an
-such that the following conditions are satisfied:0≤ai<2k
-for each integer i from 1 to n.There is no non-empty subsequence in a
-such that the bitwise XOR of the elements of the subsequence is x.A sequence b
-is a subsequence of a sequence c if b can be obtained from c by deletion of several(possibly,zero or all)elements." ?>
+                <?php echo $question ?>
             </div>
         </div>
 
@@ -81,9 +91,14 @@ is a subsequence of a sequence c if b can be obtained from c by deletion of seve
             </symbol>
         </svg>
 
+
+
         <div id="status">
 
-            <h2>Result: </h2><br>
+            <h2>Result: </h2>
+
+            <div class="info"> Execution time : <strong id="exec-time"></strong> </div>
+            <div class="info"> Memory took : <strong id="exec-memory"></strong> </div>
 
             <div class="alert  d-flex align-items-center" role="alert" id="status-type">
                 <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
@@ -92,27 +107,52 @@ is a subsequence of a sequence c if b can be obtained from c by deletion of seve
                 <div id="log">
                 </div>
             </div>
+
+            <a href="/Competitive-programming-platform/contest/?id=<?php echo $contestId ?>" class="btn btn-success nav-other">Navigate other questions</a>
+
         </div>
 
         <div id="panel" style="padding: 0px 20px 20px 0px;">
             <button type="button" class="btn btn-primary" id="run">Submit</button>
         </div>
 
+
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="success" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                        <use id="status-icon" xlink:href="#check-circle-fill" />
+                    </svg> <strong class="me-auto">Successful</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <div class="alert alert-success" role="alert">
+                        Your submission has been successfully accepted.
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.13/ace.js" type="text/javascript" charset="utf-8"></script>
 
 
         <script>
-            var editor = ace.edit("editor");
-            editor.setTheme("ace/theme/eclipse");
-
-
             const lang_map = {
                 52: "c_cpp",
                 53: "c_cpp"
             }
 
+            var toast = new bootstrap.Toast($("#success"));
+
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/eclipse");
+            editor.session.setMode(`ace/mode/${lang_map[$("select[name=languageId]").val()]}`);
+
+
+
+
             $('#language').on('change', function() {
-                console.log(`ace/mode/${lang_map[this.value]}`);
                 editor.session.setMode(`ace/mode/${lang_map[this.value]}`);
             });
 
@@ -141,13 +181,29 @@ is a subsequence of a sequence c if b can be obtained from c by deletion of seve
             function setResult(status) {
                 const map = {
                     3: ["alert-success", "#check-circle-fill"],
-                    6: ["alert-danger", "#exclamation-triangle-fill"],
-                    2: ["alert-warning", "#exclamation-triangle-fill"]
+                    6: ["alert-warning", "#exclamation-triangle-fill"],
+                    4: ["alert-danger", "#exclamation-triangle-fill"]
                 }
+
+                if (status.id === 3) {
+                    $.post("/Competitive-programming-platform/Question/submit.php", {
+                        uid: "123",
+                        qid: "<?php echo $questionId ?>"
+                    }).then(e => {
+                        console.log(e);
+                        toast.show()
+                    })
+                }
+
+                $("#status-type").removeClass("alert-success")
+                $("#status-type").removeClass("alert-warning")
+                $("#status-type").removeClass("alert-danger")
 
                 $("#status-icon").attr("xlink:href", map[status.id][1])
                 $("#status-type").addClass(map[status.id][0])
                 $("#log").text(status.description)
+
+
             }
 
             function fetchSubmission(token) {
@@ -164,6 +220,9 @@ is a subsequence of a sequence c if b can be obtained from c by deletion of seve
                 $.ajax(settings).done(function(data, textStatus, jqXHR) {
                     $("#loader").hide();
                     $("#status").show();
+                    $("#exec-time").text(data.time);
+                    $("#exec-memory").text(data.memory);
+
                     setResult(data.status)
                     if (data.compile_output) {
                         appendToLog("\n" + atob(data.compile_output))
@@ -184,8 +243,8 @@ is a subsequence of a sequence c if b can be obtained from c by deletion of seve
 
                 var languageId = $("select[name=languageId]").val();
 
-                var stdin = "2"
-                var expectedOutput = "3"
+                var stdin = "<?php echo $stdin ?>"
+                var expectedOutput = "<?php echo $expectedOutput ?>"
 
                 const settings = {
                     "async": true,
@@ -203,7 +262,8 @@ is a subsequence of a sequence c if b can be obtained from c by deletion of seve
                     data: JSON.stringify({
                         "language_id": languageId,
                         "source_code": btoa(sourceCode),
-                        "stdin": btoa(stdin)
+                        "stdin": btoa(stdin),
+                        "expected_output": btoa(expectedOutput)
                     }),
                 };
 

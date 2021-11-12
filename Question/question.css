@@ -31,6 +31,14 @@
 
 }
 
+.nav-other{
+    margin-bottom: 16px;
+}
+
 #status{
     display: none;
+}
+
+#status-type{
+    margin: 16px 0px;
 }
