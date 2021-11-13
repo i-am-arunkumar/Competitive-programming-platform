@@ -1,27 +1,13 @@
-<!--Head-->
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title></title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-</head>
-
 <?php
-include("Signin/Register.php");
-include("Signin/Login.php");
+$path = $_SERVER['DOCUMENT_ROOT'];
+include($path . "/competitive-programming-platform/Signin/Register.php");
+include($path . "/competitive-programming-platform/Signin/Login.php");
 ?>
 
 <!--Navbar-->
 <nav style="position:fixed;width:100%;z-index:100;top:0;" class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="index.php">
             <img src="https://th.bing.com/th/id/R.9c5c3d2ed1ebd22dbcf567bc5d2d4fc8?rik=vC8lSSfdD1U5zg&riu=http%3a%2f%2fwww.newdesignfile.com%2fpostpic%2f2014%2f09%2fcomputer-programming-code-icon_334973.png&ehk=opjpxA8O%2bpC5h%2bX8BO4YhrH6OlFCGHNEpuf8I9v9tqg%3d&risl=&pid=ImgRaw&r=0" alt="" width="48" height="48" class="d-inline-block align-text-center">
             Competitive Programming
         </a>
@@ -35,13 +21,17 @@ include("Signin/Login.php");
                     <a class="nav-link active" aria-current="page" href="#">Leaderboard</a>
                 </li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex" style="margin :0px;">
+                <input class="search form-control me-2" type="search" placeholder="Search" aria-label="Search">
             </form>
-           <!-- <button type="button" class="btn btn-primary" style="margin-left : 16px;" data-bs-toggle="modal" data-bs-target="#signindialog">SIGN IN</button> -->
-           <button type="button" class="btn btn-primary" style="margin-left : 16px;" data-bs-toggle="modal" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Register</button>
-           <button type="button" class="btn btn-primary" style="margin-left : 6px;" data-bs-toggle="modal" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Login</button>           
+            <!-- <button type="button" class="btn btn-primary" style="margin-left : 16px;" data-bs-toggle="modal" data-bs-target="#signindialog">SIGN IN</button> -->
+            <div id="auth-cluster">
+                <button type="button" class="btn btn-primary" style="margin-left : 16px;" data-bs-toggle="modal" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Register</button>
+                <button type="button" class="btn btn-primary" style="margin-left : 6px;" data-bs-toggle="modal" onclick="document.getElementById('id02').style.display='block'" style="width:auto;">Login</button>
+            </div>
+            <button type="button" class="btn btn-danger logout" style="margin-left : 16px;" style="width:auto;" onclick='sessionStorage.clear();window.location.href="/competitive-programming-platform";authHandle(false);' id="logout">Logout</button>
+
+
         </div>
     </div>
 </nav>
@@ -50,18 +40,18 @@ include("Signin/Login.php");
 <div class="modal fade" id="signindialog" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          
+
             <div class="modal-body">
-            <nav>
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <button class="nav-link active" id="Log-in-tab" data-bs-toggle="tab" data-bs-target="#Log-in" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
-    <button class="nav-link" id="Sign-in-tab" data-bs-toggle="tab" data-bs-target="#Sign-in" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
-      </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="Log-in" role="tabpanel" aria-labelledby="Log-in-tab">...</div>
-  <div class="tab-pane fade" id="Sign-in" role="tabpanel" aria-labelledby="Sign-in-tab">...</div>
-</div>
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="Log-in-tab" data-bs-toggle="tab" data-bs-target="#Log-in" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Home</button>
+                        <button class="nav-link" id="Sign-in-tab" data-bs-toggle="tab" data-bs-target="#Sign-in" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="Log-in" role="tabpanel" aria-labelledby="Log-in-tab">...</div>
+                    <div class="tab-pane fade" id="Sign-in" role="tabpanel" aria-labelledby="Sign-in-tab">...</div>
+                </div>
 
                 <form>
                     <div class="mb-3">
@@ -81,3 +71,19 @@ include("Signin/Login.php");
         </div>
     </div>
 </div>
+
+<script>
+    function authHandle(isLoggedin) {
+        if (isLoggedin) {
+            $("#auth-cluster").hide();
+            $("#logout").show();
+
+        } else {
+            $("#auth-cluster").show();
+            $("#logout").hide();
+        }
+
+    }
+
+    authHandle(sessionStorage.getItem("uid"));
+</script>

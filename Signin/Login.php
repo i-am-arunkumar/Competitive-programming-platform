@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="signin.css"  rel="stylesheet">
 </head>
 <body>
 
@@ -43,7 +42,16 @@
                         username: $("#uname").val(),
                         password : $("#pwd").val()
                     }).then(e => {
-                        console.log(e);
+                      console.log(e);
+                      let data = JSON.parse(e)
+                       if(data.status === "success") {
+                         sessionStorage.setItem("uid" ,data.id);
+                         document.getElementById('id02').style.display='none';
+                         authHandle(true);
+                       }
+                       else{
+                         alert(data.status);
+                       }
                     })
   }
 // Get the modal
@@ -59,6 +67,7 @@ window.onclick = function(event) {
         modal1.style.display = "none";
     }
 }
+
 </script>
 
 

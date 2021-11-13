@@ -4,7 +4,6 @@
 <head>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="./signin.css" rel="stylesheet">
     <style>
 
     </style>
@@ -36,10 +35,8 @@
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="psw_r" id="psw_r" required>
                 
-                <button class="bttt" onclick='registersubmit();'>Login</button>
-                <label>
-                    <input type="checkbox" checked="checked" name="remember"> Remember me
-                </label>
+                <button class="bttt" onclick='registersubmit();'>Register</button>
+                
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
@@ -60,7 +57,8 @@
                 password: $("#psw_r").val(),
                
             }).then(e => {
-                console.log(e);
+                document.getElementById('id01').style.display='none';
+                alert(e);
             })
         }
     </script>

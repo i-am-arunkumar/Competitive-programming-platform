@@ -22,7 +22,11 @@ include("../commons/db_connection.php");
 if($id2==$id){
     echo 'Username already exist! ';
 }
+else{
+    echo 'Registration successful! ';
+}
 
- echo $email.','.$id.','.$name.','.$username.','.$password.');' ;
+
+ //echo $email.','.$id.','.$name.','.$username.','.$password.');' ;
 
 ?>

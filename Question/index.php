@@ -138,6 +138,11 @@ $question = $question_data["question"];
 
 
         <script>
+
+            if(!sessionStorage.getItem("uid")){
+                window.location.href = "/competitive-programming-platform"
+            }
+
             const lang_map = {
                 52: "c_cpp",
                 53: "c_cpp"
