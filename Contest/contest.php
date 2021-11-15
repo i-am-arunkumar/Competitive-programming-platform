@@ -6,9 +6,11 @@ include("../commons/header.php");
 include("../commons/db_connection.php");
 ?>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="./contest.css">
+<head>    <meta charset="UTF-8">
+    <title>Contest</title>
+
+    <link rel="stylesheet" href="./contest.css">
+</head>
 
 <body class="container">
 
@@ -22,41 +24,38 @@ $contest_details = $result->fetch_assoc();
 ?>
 
 <script>
+    if(!sessionStorage.getItem("uid")){
+        window.location.href = "/competitive-programming-platform"
+    }
+
     function durationToMili(duration) {
         var time = duration.split(":");
         return parseInt(time[0]) * 60 * 60 * 1000 + parseInt(time[1]) * 60 * 1000
             + parseInt(time[2]) * 1000;
     }
 
-    // Set the date we're counting down to
     var startTime = <?php echo strtotime($contest_details["contest_date"]) * 1000 ?>;
     var duration = durationToMili("<?php echo $contest_details["contest_duration"] ?>");
     var endTime = startTime + duration;
 
     console.log(endTime, Date.now())
-    // Update the count down every 1 second
     var x = setInterval(function () {
 
-        // Get today's date and time
         var now = Date.now();
 
-        // Find the distance between now and the count down date
         var distance = endTime - now;
 
-        // Time calculations for days, hours, minutes and seconds
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Output the result in an element with id="demo"
         document.getElementById("timer").innerHTML = days + "d " + hours + "h "
             + minutes + "m " + seconds + "s ";
 
-        // If the count down is over, write some text
         if (distance < 0) {
             clearInterval(x);
-            document.getElementById("timer").innerHTML = "EXPIRED";
+            document.getElementById("timer").innerHTML = "CONTEST OVER";
         }
     }, 1000);
 
@@ -117,7 +116,7 @@ $result = $conn->query($sql);
                         ' . $row["qid"] . '
                         </th>
                         <td>
-                            <a href="http://localhost/cpSite/Question?id=' . $row["qid"] . '">
+                            <a href="http://localhost/competitive-programming-platform/Question?id=' . $row["qid"] . '">
                             ' . $row["title"] . '
                             </a>
                         </td>
