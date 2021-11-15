@@ -65,17 +65,50 @@ include("commons/header.php");
     <?php
     include("commons/db_connection.php");
 
-    $sql = "SELECT contest_id, contest_name, contest_date, contest_duration,contest_author,contest_description FROM contest_details";
+    $sql = "SELECT contest_id, contest_name, contest_date, contest_duration,contest_author,contest_description FROM contest_details  order by contest_date desc";
     $result = $conn->query($sql);
 
+    function durationToMili($duration){
+        $time = explode(":",$duration);
+        return ($time[0]) * 60 * 60 * 1000 + ($time[1]) * 60 * 1000
+            + ($time[2]) * 1000;
+    }
+
+
+    function get_class_for_contest($currentmillis,$startTime, $endTime){
+
+        if($currentmillis  > $endTime ){
+            return "over"; 
+        }
+        else if($currentmillis > $startTime && $currentmillis < $endTime){
+            return "live";
+        }
+
+        return "";
+
+    }
+
+ 
+
+
+
     if ($result !== false && $result->num_rows > 0) {
+        $currentmillis = round(microtime(true) * 1000);
         // output data of each row
         while ($row = $result->fetch_assoc()) {
             //  echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
 
+
+            $startTime =  (strtotime($row["contest_date"]) * 1000) - durationToMili("04:30:00") ;
+            $duration = durationToMili($row["contest_duration"]);
+            $endTime = $startTime + $duration;
+        
+
+            $status = get_class_for_contest($currentmillis,$startTime,$endTime);
+
             echo '
             <div class="card" >
-                <h3 class="card-header over" style="line-height:120%">  <a class="cname" href="javascript:entercontest(' . $row["contest_id"] . ');" style="color:blue;text-decoration:none">' . $row["contest_name"] . '</a> 
+                <h3 class="card-header '.$status.' " style="line-height:120%">  <a class="cname" href="javascript:entercontest(' . $row["contest_id"] . ');" style="color:blue;text-decoration:none">' . $row["contest_name"] . '</a> 
                 
                 <p style="float:right;font-size:20px;"> <span class="header-light" > Date : </span>' . date_format(date_create($row["contest_date"]), "d - m - Y") . '<br><span class="header-light"> Time : </span> ' .
                 date_format(date_create($row["contest_date"]), "h:i a") . ' </p>
@@ -89,7 +122,7 @@ include("commons/header.php");
                 <div class="card-body">
                     <h5 class="card-title" style="color:rgb(0, 0, 0);"> Duration: ' . date_format(date_create($row["contest_duration"]), "g") . 'hr ' . date_format(date_create($row["contest_duration"]), "i") . 'min </h5>
                     <p class="card-text">' . $row["contest_description"] . '</p>
-                    <a onclick="entercontest(' . $row["contest_id"] . ', endTime)" class="btn btn-' . 'primary">Enter contest</a>
+                    <a onclick="entercontest(' . $row["contest_id"] .','. $startTime.',' .$endTime.')" class="btn btn-' . ($status == "over" ?  'danger' : ( $status == "live" ? 'success' : 'primary')) . '">Enter contest</a>
                 </div>
             </div>
             ';
@@ -109,25 +142,20 @@ include("commons/header.php");
 
         var userList = new List('root', options);
 
-        function durationToMili(duration) {
-            var time = duration.split(":");
-            console.log(time)
-            return parseInt(time[0]) * 60 * 60 * 1000 + parseInt(time[1]) * 60 * 1000
-                + parseInt(time[2]) * 1000;
-        }
+      
 
-        var startTime = <?php echo strtotime($contest_details["contest_date"]) * 1000 ?>;
-        var duration = durationToMili("<?php echo $contest_details["contest_duration"] ?>");
-        var endTime = startTime + duration;
-        console.log(endTime, startTime, duration)
-
-        function entercontest(cid, endDuration) {
+        function entercontest(cid,startTime, endDuration) {
             console.log(endDuration)
             if (sessionStorage.getItem("uid")) {
 
-                if (Date.now() < endDuration) {
+                if(Date.now() < startTime){
+                    alert("Stay tune! contest is not start yet.");
+
+                }
+                else if (Date.now() < endDuration) {
                     window.location.href = "/competitive-programming-platform/Contest/contest.php?id=" + cid;
-                } else {
+                }
+                 else {
                     alert("Contest was over! better luck next time :(");
                 }
 
