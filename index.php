@@ -25,6 +25,16 @@
         margin-top: 16px;
     }
 
+    .live{
+background-color: lightgreen;
+
+    }
+
+    .over{
+background-color: lightcoral;
+    }
+
+
     .logout {
         display: none;
     }
@@ -65,7 +75,7 @@
 
                 echo  '
             <div class="card" >
-                <h3 class="card-header" style="line-height:120%">  <a class="cname" href="javascript:entercontest(' . $row["contest_id"] . ');" style="color:blue;text-decoration:none">' . $row["contest_name"] . '</a> 
+                <h3 class="card-header over" style="line-height:120%">  <a class="cname" href="javascript:entercontest(' . $row["contest_id"] . ');" style="color:blue;text-decoration:none">' . $row["contest_name"] . '</a> 
                 
                 <p style="float:right;font-size:20px;"> <span class="header-light" > Date : </span>' . date_format(date_create($row["contest_date"]), "d - m - Y") . '<br><span class="header-light"> Time : </span> ' .
                     date_format(date_create($row["contest_date"]), "h:i a") . ' </p>
