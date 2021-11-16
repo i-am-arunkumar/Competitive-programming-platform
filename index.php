@@ -153,7 +153,7 @@ include("commons/header.php");
 
                 }
                 else if (Date.now() < endDuration) {
-                    window.location.href = "/competitive-programming-platform/Contest/contest.php?id=" + cid;
+                    window.location.href = "/competitive-programming-platform/Contest/index.php?id=" + cid;
                 }
                  else {
                     alert("Contest was over! better luck next time :(");

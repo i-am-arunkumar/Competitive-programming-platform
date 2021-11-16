@@ -10,7 +10,7 @@ include("../commons/db_connection.php");
     <meta charset="UTF-8">
     <title>Contest</title>
 
-    <link rel="stylesheet" href="./contest.css">
+    <link rel="stylesheet" href="contest.css">
 </head>
 
 <body class="container">
@@ -25,6 +25,9 @@ $contest_details = $result->fetch_assoc();
 ?>
 
 <script>
+    $.post("/Competitive-programming-platform/Question/uid.php", {
+        uid: sessionStorage.getItem("uid")
+    })
 
     if (!sessionStorage.getItem("uid")) {
         window.location.href = "/competitive-programming-platform"
@@ -65,7 +68,7 @@ $contest_details = $result->fetch_assoc();
 
 <!--Hero Section-->
 <div class="hero px-3 py-4 my-3 text-center">
-    <h1 class="display-5 fw-bold">
+    <h1 class="display-5 fw-bold text-primary">
         <?php echo $contest_details["contest_name"] ?>
     </h1>
     <div class="col-lg-6 mx-auto">
@@ -75,8 +78,11 @@ $contest_details = $result->fetch_assoc();
     </div>
 </div>
 
+
 <?php
-$user_id = 1;
+//include("uid.php");
+
+$user_id = $_COOKIE['uid'];
 $solved_count = 0;
 $total_count = 0;
 
@@ -114,13 +120,17 @@ $result = $conn->query($sql);
             <tbody>
             <?php
             while ($row = $result->fetch_assoc()) {
-                echo '
+                if ($row['contest_id'] == $contest_id) {
+                    echo '
                     <tr>
                         <th scope="row">
                             ' . $row["id"] . '
                         </th>
                         <td>
-                            <a href="http://localhost/competitive-programming-platform/Question?id=' . $row["id"] . '">
+                            <a 
+                                class="link"
+                                style="text-decoration: none;" 
+                                href="http://localhost/competitive-programming-platform/Question?id=' . $row["id"] . '">
                                 ' . $row["title"] . '
                             </a>
                         </td>
@@ -128,13 +138,25 @@ $result = $conn->query($sql);
                             ' . (($row["qid"] == "") ? "No" : "Yes") . '
                         </td>
                     </tr>
-                ';
+                    ';
 
-                $total_count++;
-                if ($row["qid"])
-                    $solved_count++;
+                    $total_count++;
+                    if ($row["qid"])
+                        $solved_count++;
+                }
+            }
+
+            if ($total_count == 0) {
+                echo '
+                 <tr>
+                    <td colspan="3">
+                        No Questions so far.
+                    </td>
+                 </tr>
+                ';
             }
             ?>
+
             </tbody>
         </table>
     </div>
@@ -142,14 +164,23 @@ $result = $conn->query($sql);
     <!--Profile Card-->
     <div class="board">
         <div class="card text-center" style="height: 150px;">
-            <div class="card-header">
+            <div class="card-header fw-bold">
                 Score
             </div>
-            <div class="card-body">
+            <div class="card-body inner-board">
                 <h5 class="card-title">
                     Solved: <?php echo $solved_count . ' / ' . $total_count; ?>
                 </h5>
             </div>
+            <!--            <div class="progress" style="">-->
+            <!--                <div-->
+            <!--                        class="progress-bar w"-->
+            <!--                        role="progressbar"-->
+            <!--                        aria-valuenow="--><?php //echo $solved_count ?><!--"-->
+            <!--                        aria-valuemin="0"-->
+            <!--                        aria-valuemax="--><?php //echo $total_count ?><!--">-->
+            <!--                </div>-->
+            <!--            </div>-->
         </div>
     </div>
 
