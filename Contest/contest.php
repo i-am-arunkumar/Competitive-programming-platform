@@ -6,7 +6,8 @@ include("../commons/header.php");
 include("../commons/db_connection.php");
 ?>
 
-<head>    <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
     <title>Contest</title>
 
     <link rel="stylesheet" href="./contest.css">
@@ -24,7 +25,8 @@ $contest_details = $result->fetch_assoc();
 ?>
 
 <script>
-    if(!sessionStorage.getItem("uid")){
+
+    if (!sessionStorage.getItem("uid")) {
         window.location.href = "/competitive-programming-platform"
     }
 
@@ -36,9 +38,9 @@ $contest_details = $result->fetch_assoc();
 
     var startTime = <?php echo strtotime($contest_details["contest_date"]) * 1000 ?>;
     var duration = durationToMili("<?php echo $contest_details["contest_duration"] ?>");
-    var endTime = startTime + duration;
+    var endTime = startTime + duration - 16200000;
 
-    console.log(endTime, Date.now())
+    // console.log(endTime, Date.now())
     var x = setInterval(function () {
 
         var now = Date.now();
@@ -68,6 +70,7 @@ $contest_details = $result->fetch_assoc();
     </h1>
     <div class="col-lg-6 mx-auto">
         <p id="timer" class="lead mb-4">
+            <!--timer goes here-->
         </p>
     </div>
 </div>
@@ -79,10 +82,10 @@ $total_count = 0;
 
 $sql = "
     SELECT * FROM QUESTIONS
-    INNER JOIN
+    LEFT JOIN
     USER_RECORDS
     ON QUESTIONS.ID = USER_RECORDS.QID AND
-    QUESTIONS.CONTEST_ID = USER_RECORDS.CID AND
+    QUESTIONS.CONTEST_ID = $contest_id AND
     $user_id = USER_RECORDS.UID
 ";
 
@@ -90,10 +93,11 @@ $result = $conn->query($sql);
 //echo json_encode($result->fetch_assoc());
 ?>
 
-<!--Questions Table-->
-<div class="qs row">
-    <div class="table col-md-8">
-        <table class="table table-striped table-hover text-center">
+<div class="qs">
+
+    <!--Questions Table-->
+    <div class="tables">
+        <table class="table table-striped table-hover text-center table-bordered">
             <thead>
             <tr>
                 <th scope="col">
@@ -113,15 +117,15 @@ $result = $conn->query($sql);
                 echo '
                     <tr>
                         <th scope="row">
-                        ' . $row["qid"] . '
+                            ' . $row["id"] . '
                         </th>
                         <td>
-                            <a href="http://localhost/competitive-programming-platform/Question?id=' . $row["qid"] . '">
-                            ' . $row["title"] . '
+                            <a href="http://localhost/competitive-programming-platform/Question?id=' . $row["id"] . '">
+                                ' . $row["title"] . '
                             </a>
                         </td>
                         <td>
-                        ' . (($row["qid"] == "") ? "No" : "Yes") . '
+                            ' . (($row["qid"] == "") ? "No" : "Yes") . '
                         </td>
                     </tr>
                 ';
@@ -136,16 +140,19 @@ $result = $conn->query($sql);
     </div>
 
     <!--Profile Card-->
-    <div class="board card text-center col-md-4">
-        <div class="card-header">
-            Score
-        </div>
-        <div class="card-body">
-            <h5 class="card-title">
-                Questions Solved: <?php echo $solved_count . ' / ' . $total_count; ?>
-            </h5>
+    <div class="board">
+        <div class="card text-center" style="height: 150px;">
+            <div class="card-header">
+                Score
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Solved: <?php echo $solved_count . ' / ' . $total_count; ?>
+                </h5>
+            </div>
         </div>
     </div>
+
 </div>
 
 </body>

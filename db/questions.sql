@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5deb2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Nov 12, 2021 at 03:45 PM
--- Server version: 8.0.27-0ubuntu0.20.04.1
--- PHP Version: 7.4.3
+-- Host: 127.0.0.1
+-- Generation Time: Nov 16, 2021 at 05:33 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -29,14 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `questions` (
-  `id` int NOT NULL,
-  `title` text NOT NULL,
-  `contest_id` int NOT NULL,
-  `question` text NOT NULL,
-  `time_limit` int NOT NULL,
-  `memory_limit` int NOT NULL,
-  `test_input` text NOT NULL,
-  `expected_output` text NOT NULL
+  `id` int(11) NOT NULL,
+  `title` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contest_id` int(11) NOT NULL,
+  `question` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `time_limit` int(11) NOT NULL,
+  `memory_limit` int(11) NOT NULL,
+  `test_input` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expected_output` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -44,7 +43,9 @@ CREATE TABLE `questions` (
 --
 
 INSERT INTO `questions` (`id`, `title`, `contest_id`, `question`, `time_limit`, `memory_limit`, `test_input`, `expected_output`) VALUES
-(1, 'Hello world!', 1, 'Make a program to print \"hello world!\" in stdout.\r\n\r\ntest input : no input\r\n\r\nexpected output : hello world! ', 10, 2048, '', 'hello world!');
+(1, 'Hello world!', 1, 'Make a program to print \"hello world!\" in stdout.\r\n\r\ntest input : no input\r\n\r\nexpected output : hello world! ', 10, 2048, '', 'hello world!'),
+(2, 'Max of 3', 1, 'Find the maximum value among the given 3 numbers', 5, 1024, '', '5'),
+(3, 'Pass or Fail', 1, 'Pass mark for Indian colleges is generally 40. Check if the given mark is enough to pass or not.', 5, 1024, '', 'PASS');
 
 --
 -- Indexes for dumped tables
