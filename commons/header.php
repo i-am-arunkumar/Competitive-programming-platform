@@ -28,9 +28,9 @@ include($path . "/competitive-programming-platform/Signin/Login.php");
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Leaderboard</a>
-                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link active" aria-current="page" href="#">Leaderboard</a>-->
+<!--                </li>-->
             </ul>
             <form class="d-flex" style="margin :0px;">
                 <input class="search form-control me-2" type="search" placeholder="Search" aria-label="Search">

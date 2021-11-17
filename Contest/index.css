@@ -1,7 +1,7 @@
 body {
     padding-top: 100px;
     width: 100vw;
-    /*height: 100vh;*/
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -39,6 +39,7 @@ body {
 
 .inner-board {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;

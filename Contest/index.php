@@ -10,7 +10,7 @@ include("../commons/db_connection.php");
     <meta charset="UTF-8">
     <title>Contest</title>
 
-    <link rel="stylesheet" href="contest.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body class="container">
@@ -25,9 +25,6 @@ $contest_details = $result->fetch_assoc();
 ?>
 
 <script>
-    $.post("/Competitive-programming-platform/Question/uid.php", {
-        uid: sessionStorage.getItem("uid")
-    })
 
     if (!sessionStorage.getItem("uid")) {
         window.location.href = "/competitive-programming-platform"
@@ -68,7 +65,7 @@ $contest_details = $result->fetch_assoc();
 
 <!--Hero Section-->
 <div class="hero px-3 py-4 my-3 text-center">
-    <h1 class="display-5 fw-bold text-primary">
+    <h1 class="display-5 fw-bold">
         <?php echo $contest_details["contest_name"] ?>
     </h1>
     <div class="col-lg-6 mx-auto">
@@ -77,7 +74,6 @@ $contest_details = $result->fetch_assoc();
         </p>
     </div>
 </div>
-
 
 <?php
 //include("uid.php");
@@ -171,6 +167,13 @@ $result = $conn->query($sql);
                 <h5 class="card-title">
                     Solved: <?php echo $solved_count . ' / ' . $total_count; ?>
                 </h5>
+                <a
+                        class="btn btn-primary"
+                        href="http://localhost/Competitive-programming-platform/contest/leaderboard.php?id=<?php echo $contest_id ?>"
+                        style="width: 80%; border-radius: 20px;"
+                >
+                    Leaderboard
+                </a>
             </div>
             <!--            <div class="progress" style="">-->
             <!--                <div-->

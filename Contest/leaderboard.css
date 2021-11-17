@@ -1,0 +1,28 @@
+body {
+    padding-top: 100px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.hero {
+    background: #f4f4f4;
+    border-radius: 15px;
+    width: 100%;
+}
+
+#leaderboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+table {
+    width: 80%;
+}

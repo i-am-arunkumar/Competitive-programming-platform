@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2021 at 05:32 AM
+-- Generation Time: Nov 17, 2021 at 02:24 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -28,7 +28,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `user_records` (
-  `sid` int(11) NOT NULL,
   `cid` int(11) NOT NULL,
   `qid` int(11) NOT NULL,
   `uid` int(11) NOT NULL
@@ -38,9 +37,9 @@ CREATE TABLE `user_records` (
 -- Dumping data for table `user_records`
 --
 
-INSERT INTO `user_records` (`sid`, `cid`, `qid`, `uid`) VALUES
-(1, 1, 1, 1),
-(2, 1, 2, 1);
+INSERT INTO `user_records` (`cid`, `qid`, `uid`) VALUES
+(1, 1, 1),
+(1, 2, 1);
 
 --
 -- Indexes for dumped tables
@@ -50,7 +49,7 @@ INSERT INTO `user_records` (`sid`, `cid`, `qid`, `uid`) VALUES
 -- Indexes for table `user_records`
 --
 ALTER TABLE `user_records`
-  ADD PRIMARY KEY (`sid`);
+  ADD UNIQUE KEY `qid` (`qid`,`uid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
