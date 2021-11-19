@@ -14,10 +14,15 @@ body {
     width: 100%;
 }
 
+.leaderboard-empty{
+    margin: 16px;
+}
+
 #leaderboard {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    margin-top: 32px;
     align-items: center;
     width: 100vw;
     height: 100vh;

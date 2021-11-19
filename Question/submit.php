@@ -4,7 +4,7 @@ $userId = $_POST["uid"];
 $questionId = $_POST['qid'];
 $cid = $_POST['cid'];
 
-$database = mysqli_connect("localhost", "root", "", "cp_site");
+$database = mysqli_connect("localhost", "qmaxrun", "linux 1051", "CP_SITE");
 
 if (!$database) {
     die("Connection failed: " . mysqli_connect_error());

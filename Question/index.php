@@ -3,7 +3,7 @@
 
 $questionId = $_GET["id"];
 
-$database = mysqli_connect("localhost", "root", "", "cp_site");
+$database = mysqli_connect("localhost", "qmaxrun", "linux 1051", "CP_SITE");
 
 if (!$database) {
     die("Connection failed: " . mysqli_connect_error());
@@ -31,7 +31,7 @@ $question = $question_data["question"];
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
-     <link href="question.css" rel="stylesheet">
+    <link href="question.css" rel="stylesheet">
 
 </head>
 
@@ -64,8 +64,10 @@ $question = $question_data["question"];
         <select style="width: 300px;" name="languageId" class="form-select" id="language">
             <option selected>Select Language </option>
             <option value="52">C</option>
-            <option value="53">C++</option>
-            <option value="54">Java</option>
+            <option value="52">C++</option>
+            <option value="62">Java</option>
+            <option value="63">Javascript</option>
+            <option value="71">Python</option>
         </select>
 
         <label for="code" class="form-label">Enter your source code:</label>
@@ -105,7 +107,7 @@ $question = $question_data["question"];
                 </div>
             </div>
 
-            <a href="/Competitive-programming-platform/contest/?id=<?php echo $contestId ?>" class="btn btn-success nav-other">Navigate other questions</a>
+            <a href="/Competitive-programming-platform/Contest/?id=<?php echo $contestId ?>" class="btn btn-success nav-other">Navigate other questions</a>
 
         </div>
 
@@ -135,14 +137,16 @@ $question = $question_data["question"];
 
 
         <script>
-
-            if(!sessionStorage.getItem("uid")){
-                window.location.href = "/competitive-programming-platform"
+            if (!sessionStorage.getItem("uid")) {
+                window.location.href = "/Competitive-programming-platform"
             }
 
             const lang_map = {
                 52: "c_cpp",
-                53: "c_cpp"
+                52: "c_cpp",
+                62: "java",
+                63: "javascript",
+                71: "python",
             }
 
             var toast = new bootstrap.Toast($("#success"));
@@ -184,14 +188,15 @@ $question = $question_data["question"];
                 const map = {
                     3: ["alert-success", "#check-circle-fill"],
                     6: ["alert-warning", "#exclamation-triangle-fill"],
-                    4: ["alert-danger", "#exclamation-triangle-fill"]
+                    4: ["alert-danger", "#exclamation-triangle-fill"],
+                    11: ["alert-danger", "#exclamation-triangle-fill"]
                 }
 
                 if (status.id === 3) {
                     $.post("/Competitive-programming-platform/Question/submit.php", {
                         uid: sessionStorage.getItem("uid"),
                         qid: "<?php echo $questionId ?>",
-                        cid : "<?php echo $contestId ?>"
+                        cid: "<?php echo $contestId ?>"
                     }).then(e => {
                         console.log(e);
                         toast.show()

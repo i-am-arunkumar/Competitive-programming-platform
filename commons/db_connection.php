@@ -1,18 +1,16 @@
 <?php
 $servername = "localhost";
 
-$username = "root";
+$username = "qmaxrun";
 
-$password = "";
+$password = "linux 1051";
 
-$db = "cp_site";
+$db = "CP_SITE";
 
 
 $conn = mysqli_connect($servername, $username, $password, $db);
 
 if (!$conn) {
     echo "Connection Failed!";
-//    die()
+    //    die()
 }
-
-//echo "Working";
